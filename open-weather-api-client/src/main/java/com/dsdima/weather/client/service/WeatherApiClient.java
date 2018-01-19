@@ -1,5 +1,6 @@
 package com.dsdima.weather.client.service;
 
+
 import com.dsdima.weather.model.WeatherInfo;
 
 /**

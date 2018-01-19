@@ -1,4 +1,4 @@
-package com.dsdima.weather.client.model;
+package com.dsdima.weather.client.json;
 
 /**
  * @author dsshevchenko
