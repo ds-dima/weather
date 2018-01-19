@@ -1,7 +1,9 @@
 package com.dsdima.weather.service.impl;
 
+import com.dsdima.weather.client.service.WeatherApiClient;
 import com.dsdima.weather.model.WeatherInfo;
 import com.dsdima.weather.service.WeatherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,9 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
+    @Autowired
+    private WeatherApiClient weatherApiClient;
+
     @Override
     public WeatherInfo getWeatherByCityId(String cityId) {
-        return new WeatherInfo();
+        return weatherApiClient.getWeatherByCityId(cityId);
     }
 
     @Override
