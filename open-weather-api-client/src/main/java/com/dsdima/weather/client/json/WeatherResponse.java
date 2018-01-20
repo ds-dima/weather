@@ -8,14 +8,13 @@ import java.util.Map;
  * @author dsshevchenko
  * @since <pre>1/19/2018</pre>
  */
-//@JsonDeserialize(using = WeatherResponseDeserializer.class)
 public class WeatherResponse {
 
     private Float temperature;
     private Integer pressure;
-    private Integer windSpeed;
-    private String windDirection;
-
+    private Float windSpeed;
+    private Integer windDirection;
+    private String cityName;
 
     public Float getTemperature() {
         return temperature;
@@ -25,66 +24,49 @@ public class WeatherResponse {
         return pressure;
     }
 
-    public Integer getWindSpeed() {
+    public Float getWindSpeed() {
         return windSpeed;
     }
 
-    public String getWindDirection() {
+    public Integer getWindDirection() {
         return windDirection;
     }
 
-    /**
-     * Set temperature property.
-     *
-     * @param val - new temperature value.
-     * @return the {@link WeatherResponse} for chaining.
-     */
-    public WeatherResponse setTemperature(Float val) {
-        temperature = val;
-        return this;
+    public String getCityName() {
+        return cityName;
     }
 
     @JsonProperty("main")
     public void unpackTemperature(Map<String, String> main) {
+        temperature = floatValue(main.get("temp"));
+        pressure = intValue(main.get("pressure"));
+    }
+
+    @JsonProperty("wind")
+    public void unpackWindSpeed(Map<String, String> wind) {
+         windSpeed = floatValue(wind.get("speed"));
+         windDirection = intValue(wind.get("deg"));
+    }
+
+    @JsonProperty("name")
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    private Integer intValue(String val) {
         try {
-            temperature = Float.parseFloat(main.get("temp"));
-        } catch (NumberFormatException e) {
-            temperature = null;
+            return Integer.parseInt(val);
+        } catch (Exception e) {
+            return null;
         }
-
     }
 
-    /**
-     * Set pressure property.
-     *
-     * @param val - new pressure value.
-     * @return the {@link WeatherResponse} for chaining.
-     */
-    public WeatherResponse setPressure(Integer val) {
-        pressure = val;
-        return this;
-    }
-
-    /**
-     * Set windSpeed property.
-     *
-     * @param val - new windSpeed value.
-     * @return the {@link WeatherResponse} for chaining.
-     */
-    public WeatherResponse setWindSpeed(Integer val) {
-        windSpeed = val;
-        return this;
-    }
-
-    /**
-     * Set windDirection property.
-     *
-     * @param val - new windDirection value.
-     * @return the {@link WeatherResponse} for chaining.
-     */
-    public WeatherResponse setWindDirection(String val) {
-        windDirection = val;
-        return this;
+    private Float floatValue(String val) {
+        try {
+            return Float.parseFloat(val);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

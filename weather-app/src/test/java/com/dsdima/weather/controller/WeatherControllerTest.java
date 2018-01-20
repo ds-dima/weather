@@ -56,9 +56,9 @@ public class WeatherControllerTest {
 
         assertNotNull(weatherJsonText);
         WeatherInfoJson json = objectMapper.readValue(weatherJsonText, WeatherInfoJson.class);
-        assertEquals(new Integer(20), json.getTemperature());
-        assertEquals(new Integer(765), json.getPressure());
-        assertEquals(new Integer(20), json.getWindSpeed());
+        assertEquals((Integer) 20, json.getTemperature());
+        assertEquals((Integer)765, json.getPressure());
+        assertEquals((Integer)20, json.getWindSpeed());
         assertEquals(WindDirection.NORTH.getDescription(), json.getWindDirection());
     }
 

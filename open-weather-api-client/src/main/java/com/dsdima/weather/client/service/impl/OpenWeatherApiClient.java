@@ -1,5 +1,6 @@
 package com.dsdima.weather.client.service.impl;
 
+import com.dsdima.weather.client.converter.OpenWeatherResponseConverter;
 import com.dsdima.weather.client.json.WeatherResponse;
 import com.dsdima.weather.client.service.WeatherApiClient;
 import com.dsdima.weather.model.WeatherInfo;
@@ -26,11 +27,9 @@ public class OpenWeatherApiClient implements WeatherApiClient {
 
     @Autowired
     private RestTemplate restTemplate;
-/*
 
     @Autowired
-    private ConversionService converter;
-*/
+    private OpenWeatherResponseConverter converter;
 
     @Override
     public WeatherInfo getWeatherByCityId(String cityId) {
@@ -40,6 +39,6 @@ public class OpenWeatherApiClient implements WeatherApiClient {
         params.put("units", "metric");
         String url = apiUri + "/weather?id={id}&appid={appid}&units={units}";
         WeatherResponse response = restTemplate.getForObject(url, WeatherResponse.class, params);
-        return new WeatherInfo();//converter.convert(response, WeatherInfo.class);
+        return converter.convert(response);
     }
 }
