@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +33,34 @@ public class OpenWeatherApiClient implements WeatherApiClient {
     private OpenWeatherResponseConverter converter;
 
     @Override
-    public WeatherInfo getWeatherByCityId(String cityId) {
+    public WeatherInfo getWeatherByCityId(final String cityId) {
         Map<String, String> params = new HashMap<>();
         params.put("id", cityId);
-        params.put("appid", appId);
-        params.put("units", "metric");
-        String url = apiUri + "/weather?id={id}&appid={appid}&units={units}";
-        WeatherResponse response = restTemplate.getForObject(url, WeatherResponse.class, params);
-        return converter.convert(response);
+        return converter.convert(getWeatherResponse(params));
+    }
+
+    @Override
+    public WeatherInfo getWeatherByCityName(final String cityName) {
+        Map<String, String> params = new HashMap<>();
+        params.put("q", cityName);
+        return converter.convert(getWeatherResponse(params));
+    }
+
+    @Override
+    public WeatherInfo getWeatherByCoordinates(final String lat, String lon) {
+        Map<String, String> params = new HashMap<>();
+        params.put("lat", lat);
+        params.put("lon", lon);
+        return converter.convert(getWeatherResponse(params));
+    }
+
+    private WeatherResponse getWeatherResponse(final Map<String, String> params) {
+        UriComponentsBuilder paramBuilder = UriComponentsBuilder
+                .fromUriString(apiUri + "/weather")
+                .queryParam("appid", appId)
+                .queryParam("units", "metric");
+        params.entrySet().stream()
+                .forEach(entry -> paramBuilder.queryParam(entry.getKey(), entry.getValue()));
+        return restTemplate.getForObject(paramBuilder.toUriString(), WeatherResponse.class, params);
     }
 }

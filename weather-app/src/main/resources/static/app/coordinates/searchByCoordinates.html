@@ -8,18 +8,18 @@
                     </label>
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Широта" />
+                            <input ng-model="latitude" type="text" class="form-control" placeholder="Широта" />
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Долгота" />
+                            <input ng-model="longitude" type="text" class="form-control" placeholder="Долгота" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="center-block">
-                        <button type="button" class="btn btn-primary">Найти</button>
+                        <button type="button" class="btn btn-primary" ng-click="search()">Найти</button>
                     </div>
                 </div>
             </div>

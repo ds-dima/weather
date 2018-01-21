@@ -23,11 +23,11 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public WeatherInfo getWeatherByCityName(String cityName) {
-        return new WeatherInfo();
+        return weatherApiClient.getWeatherByCityName(cityName);
     }
 
     @Override
     public WeatherInfo getWeatherByCoordinates(String lat, String lon) {
-        return new WeatherInfo();
+        return weatherApiClient.getWeatherByCoordinates(lat, lon);
     }
 }

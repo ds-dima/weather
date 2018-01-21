@@ -28,6 +28,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @ContextConfiguration(classes = ClientConfig.class, loader = AnnotationConfigContextLoader.class)
 public class OpenWeatherApiClientTest {
 
+    public static final String HTTP_API_OPENWEATHERMAP_BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
     @Autowired
     private WeatherApiClient client;
 
@@ -43,11 +44,12 @@ public class OpenWeatherApiClientTest {
 
     @Test
     public void shouldRetrieveWeatherByCityId() throws Exception {
-        mockServer.expect(requestTo("http://api.openweathermap.org/data/2.5/weather?id=596826&appid=46f7323cb5c5febda15f2a2baaf4ed64&units=metric"))
+        mockServer.expect(requestTo(HTTP_API_OPENWEATHERMAP_BASE_URL +
+                "?appid=46f7323cb5c5febda15f2a2baaf4ed64&units=metric&id=596826"))
                   .andExpect(method(HttpMethod.GET))
                   .andRespond(withSuccess("{\n" +
                           "  \"main\":{\n" +
-                          "    \"temp\":271.15,\n" +
+                          "    \"temp\":27.15,\n" +
                           "    \"pressure\":1001\n" +
                           "  },\n" +
                           "  \"wind\":{\n" +
@@ -58,10 +60,58 @@ public class OpenWeatherApiClientTest {
                           "}", MediaType.APPLICATION_JSON_UTF8));
         WeatherInfo response = client.getWeatherByCityId("596826");
         assertNotNull(response);
-        assertEquals((Float) 271.15f, response.getTemperature());
+        assertEquals((Float) 27.15f, response.getTemperature());
         assertEquals((Integer) 1001, response.getPressure());
         assertEquals((Float) 3.1f, response.getWindSpeed());
         assertEquals((Integer) 360, response.getWindDirection());
+    }
+
+    @Test
+    public void shouldRetrieveWeatherByName() throws Exception {
+        mockServer.expect(requestTo(HTTP_API_OPENWEATHERMAP_BASE_URL +
+                "?appid=46f7323cb5c5febda15f2a2baaf4ed64&units=metric&q=Omsk"))
+                  .andExpect(method(HttpMethod.GET))
+                  .andRespond(withSuccess("{\n" +
+                          "  \"main\":{\n" +
+                          "    \"temp\":20.15,\n" +
+                          "    \"pressure\":1001\n" +
+                          "  },\n" +
+                          "  \"wind\":{\n" +
+                          "    \"speed\":5.45,\n" +
+                          "    \"deg\":200\n" +
+                          "  },\n" +
+                          "\"name\":\"Omsk\"" +
+                          "}", MediaType.APPLICATION_JSON_UTF8));
+        WeatherInfo response = client.getWeatherByCityName("Omsk");
+        assertNotNull(response);
+        assertEquals((Float) 20.15f, response.getTemperature());
+        assertEquals((Integer) 1001, response.getPressure());
+        assertEquals((Float) 5.45f, response.getWindSpeed());
+        assertEquals((Integer) 200, response.getWindDirection());
+    }
+
+    @Test
+    public void shouldRetrieveWeatherByCoordinates() throws Exception {
+        mockServer.expect(requestTo(HTTP_API_OPENWEATHERMAP_BASE_URL +
+                "?appid=46f7323cb5c5febda15f2a2baaf4ed64&units=metric&lon=139&lat=36"))
+                  .andExpect(method(HttpMethod.GET))
+                  .andRespond(withSuccess("{\n" +
+                          "  \"main\":{\n" +
+                          "    \"temp\":4,\n" +
+                          "    \"pressure\":1019\n" +
+                          "  },\n" +
+                          "  \"wind\":{\n" +
+                          "    \"speed\":25.45,\n" +
+                          "    \"deg\":100\n" +
+                          "  },\n" +
+                          "\"name\":\"Ogano\"" +
+                          "}", MediaType.APPLICATION_JSON_UTF8));
+        WeatherInfo response = client.getWeatherByCoordinates("36", "139");
+        assertNotNull(response);
+        assertEquals((Float) 4f, response.getTemperature());
+        assertEquals((Integer) 1019, response.getPressure());
+        assertEquals((Float) 25.45f, response.getWindSpeed());
+        assertEquals((Integer) 100, response.getWindDirection());
     }
 
 

@@ -7,12 +7,14 @@
                         <label>
                             <h3>Поиск погоды</h3>
                         </label>
-                        <input type="text" class="form-control" placeholder="Введите город" />
+                        <input ng-model="searchText" type="text" class="form-control" placeholder="Введите город" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="center-block">
-                        <button type="button" class="btn btn-primary">Найти</button>
+                        <button type="button" class="btn btn-primary" ng-click="search()" ng-disabled="!searchText">
+                            Найти
+                        </button>
                     </div>
                 </div>
             </div>
