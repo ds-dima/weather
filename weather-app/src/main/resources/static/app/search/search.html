@@ -1,0 +1,70 @@
+<div>
+    <div class="row">
+        <div class="search-panel center-block">
+            <div class="container-fluid">
+                <form ng-submit="search()">
+                <div class="row">
+                    <label>
+                        <h3>Поиск погоды</h3>
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="radio">
+                            <label>
+                                <input ng-model="searchMode" type="radio" value="byCity"
+                                       ng-change="clearSearch()" autofocus />
+                                По городу
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="radio">
+                            <label>
+                                <input ng-model="searchMode" type="radio" value="byCoordinates"
+                                       ng-change="clearSearch()">
+                                По координатам
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="isSearchByCityMode()">
+                    <div class="col-lg-12">
+                        <div class="input-group city-search">
+                            <input ng-model="city" type="text" class="form-control" placeholder="Введите город" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="isSearchByCoordinatesMode()">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <input ng-model="latitude" type="text" class="form-control" placeholder="Широта" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <input ng-model="longitude" type="text" class="form-control" placeholder="Долгота" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="center-block">
+                        <button type="submit" class="btn btn-primary"
+                                ng-disabled="!city && !latitude && !longitude">
+                            Найти
+                        </button>
+                    </div>
+                </div>
+                <div class="row" ng-show="weather">
+                    <p ng-show="weather.cityName"><strong>{{weather.cityName}}</strong></p>
+                    <p ng-show="weather.temperature">Температура: {{weather.temperature}} &#8451;</p>
+                    <p ng-show="weather.pressure">Давление: {{weather.pressure}} мм рт.ст.</p>
+                    <p ng-show="weather.windDirection">Ветер: {{weather.windDirection}}
+                        <span ng-show="weather.windSpeed">,{{weather.windSpeed}} м/с</span>
+                    </p>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -61,6 +61,6 @@ public class OpenWeatherApiClient implements WeatherApiClient {
                 .queryParam("units", "metric");
         params.entrySet().stream()
                 .forEach(entry -> paramBuilder.queryParam(entry.getKey(), entry.getValue()));
-        return restTemplate.getForObject(paramBuilder.toUriString(), WeatherResponse.class, params);
+        return restTemplate.getForObject(paramBuilder.build(false).toUriString(), WeatherResponse.class, params);
     }
 }

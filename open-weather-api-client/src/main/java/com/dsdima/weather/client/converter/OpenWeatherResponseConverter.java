@@ -17,6 +17,7 @@ public class OpenWeatherResponseConverter implements Converter<WeatherResponse, 
                     .setTemperature(response.getTemperature())
                     .setPressure(response.getPressure())
                     .setWindDirection(response.getWindDirection())
-                    .setWindSpeed(response.getWindSpeed());
+                    .setWindSpeed(response.getWindSpeed())
+                    .setCityName(response.getCityName());
     }
 }

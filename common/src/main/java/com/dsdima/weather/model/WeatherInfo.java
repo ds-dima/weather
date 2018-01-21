@@ -10,6 +10,7 @@ public class WeatherInfo {
     private Float temperature;
     private Integer pressure;
     private Float windSpeed;
+    private String cityName;
 
     public Integer getWindDirection() {
         return windDirection;
@@ -25,6 +26,10 @@ public class WeatherInfo {
 
     public Float getWindSpeed() {
         return windSpeed;
+    }
+
+    public String getCityName() {
+        return cityName;
     }
 
     /**
@@ -70,4 +75,16 @@ public class WeatherInfo {
         windSpeed = val;
         return this;
     }
+
+    /**
+     * Set windSpeed property.
+     *
+     * @param val - new cityName value.
+     * @return the {@link WeatherInfo} for chaining.
+     */
+    public WeatherInfo setCityName(String val) {
+        cityName = val;
+        return this;
+    }
+
 }

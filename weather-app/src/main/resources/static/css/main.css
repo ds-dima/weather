@@ -1,13 +1,13 @@
-.weather-content {
-    padding-top: 50px;
-}
-
 div.search-panel {
     text-align: center;
-    width: 250px;
-    margin-top: 50px;
+    width: 400px;
+    margin-top: 5%;
+}
+
+.city-search {
+    width: 100%;
 }
 
 .row {
-    padding-top: 5%;
+    padding-top: 10px;
 }

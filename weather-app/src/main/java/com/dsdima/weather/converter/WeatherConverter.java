@@ -27,6 +27,7 @@ public class WeatherConverter implements Converter<WeatherInfo, WeatherInfoJson>
                     .setPressure(nonNull(weatherInfo.getPressure()) ?
                             ((Float)(HPA_TO_MMHG_FACTOR * weatherInfo.getPressure())).intValue() : null)
                     .setWindSpeed(nonNull(weatherInfo.getWindSpeed()) ?
-                            weatherInfo.getWindSpeed().intValue() : null);
+                            weatherInfo.getWindSpeed().intValue() : null)
+                    .setCityName(weatherInfo.getCityName());
     }
 }

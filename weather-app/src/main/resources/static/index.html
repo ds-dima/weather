@@ -9,13 +9,15 @@
     <script type="application/javascript" src="libs/angular.min.js"></script>
     <script type="application/javascript" src="libs/angular-resource.min.js"></script>
     <script type="application/javascript" src="libs/angular-ui-router.min.js"></script>
+    <script type="application/javascript" src="libs/ngLoader.min.js"></script>
     <script type="application/javascript" src="app/app.js"></script>
     <script type="application/javascript" src="app/service.js"></script>
-    <script type="application/javascript" src="app/city/searchByCityController.js"></script>
-    <script type="application/javascript" src="app/coordinates/searchByCoordinatesController.js"></script>
+    <script type="application/javascript" src="app/search/searchController.js"></script>
     <script type="application/javascript" src="app/about/aboutController.js"></script>
+    <script type="application/javascript" src="app/directives/loading-indicator.js"></script>
 
     <link rel="stylesheet" href="libs/css/bootstrap.min.css">
+    <link rel="stylesheet" href="libs/css/ngLoader.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body ng-app="weather">
@@ -32,14 +34,13 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li ui-sref-active="active"><a ui-sref="by-city">Поиск по городу</a></li>
-                    <li ui-sref-active="active"><a ui-sref="by-coordinates">Поиск по координатам</a></li>
+                    <li ui-sref-active="active"><a ui-sref="search">Поиск</a></li>
                     <li ui-sref-active="active"><a ui-sref="about">О программе</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container weather-content">
+    <div class="container">
         <ui-view />
     </div>
 </body>

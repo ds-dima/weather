@@ -8,6 +8,7 @@ public class WeatherInfoJson {
     private Integer pressure;
     private Integer windSpeed;
     private String windDirection;
+    private String cityName;
 
     public Integer getTemperature() {
         return temperature;
@@ -23,6 +24,10 @@ public class WeatherInfoJson {
 
     public String getWindDirection() {
         return windDirection;
+    }
+
+    public String getCityName() {
+        return cityName;
     }
 
     /**
@@ -66,6 +71,17 @@ public class WeatherInfoJson {
      */
     public WeatherInfoJson setWindDirection(String val) {
         windDirection = val;
+        return this;
+    }
+
+    /**
+     * Set windDirection property.
+     *
+     * @param val - new cityName value.
+     * @return the {@link WeatherInfoJson} for chaining.
+     */
+    public WeatherInfoJson setCityName(String val) {
+        cityName = val;
         return this;
     }
 }

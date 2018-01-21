@@ -47,6 +47,7 @@ public class WeatherControllerTest {
                         .setPressure(1021)
                         .setWindSpeed(20.5f)
                         .setWindDirection(350)
+                        .setCityName("Omsk")
                 );
 
         String weatherJsonText = mockMvc.perform(get("/api/v1.0/weather/by-city-name")
@@ -60,6 +61,7 @@ public class WeatherControllerTest {
         assertEquals((Integer)765, json.getPressure());
         assertEquals((Integer)20, json.getWindSpeed());
         assertEquals(WindDirection.NORTH.getDescription(), json.getWindDirection());
+        assertEquals("Omsk", json.getCityName());
     }
 
     @Test
@@ -69,6 +71,7 @@ public class WeatherControllerTest {
                         .setTemperature(-5.9f)
                         .setPressure(1080)
                         .setWindDirection(200)
+                        .setCityName("Moscow")
                 );
 
         String weatherJsonText = mockMvc.perform(get("/api/v1.0/weather/by-city-id")
@@ -81,6 +84,7 @@ public class WeatherControllerTest {
         assertEquals(new Integer(810), json.getPressure());
         assertNull(json.getWindSpeed());
         assertEquals(WindDirection.SOUTH.getDescription(), json.getWindDirection());
+        assertEquals("Moscow", json.getCityName());
     }
 
     @Test
@@ -89,6 +93,7 @@ public class WeatherControllerTest {
                 .thenReturn(new WeatherInfo()
                         .setTemperature(-35f)
                         .setWindDirection(300)
+                        .setCityName("Санкт-Петербург")
                 );
 
         String weatherJsonText = mockMvc.perform(get("/api/v1.0/weather/by-coordinates")
@@ -103,5 +108,6 @@ public class WeatherControllerTest {
         assertNull(json.getPressure());
         assertNull(json.getWindSpeed());
         assertEquals(WindDirection.NORTH_WEST.getDescription(), json.getWindDirection());
+        assertEquals("Санкт-Петербург", json.getCityName());
     }
 }

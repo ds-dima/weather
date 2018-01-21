@@ -64,6 +64,7 @@ public class OpenWeatherApiClientTest {
         assertEquals((Integer) 1001, response.getPressure());
         assertEquals((Float) 3.1f, response.getWindSpeed());
         assertEquals((Integer) 360, response.getWindDirection());
+        assertEquals("Murava", response.getCityName());
     }
 
     @Test
@@ -88,6 +89,7 @@ public class OpenWeatherApiClientTest {
         assertEquals((Integer) 1001, response.getPressure());
         assertEquals((Float) 5.45f, response.getWindSpeed());
         assertEquals((Integer) 200, response.getWindDirection());
+        assertEquals("Omsk", response.getCityName());
     }
 
     @Test
@@ -112,8 +114,6 @@ public class OpenWeatherApiClientTest {
         assertEquals((Integer) 1019, response.getPressure());
         assertEquals((Float) 25.45f, response.getWindSpeed());
         assertEquals((Integer) 100, response.getWindDirection());
+        assertEquals("Ogano", response.getCityName());
     }
-
-
-
 }
