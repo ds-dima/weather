@@ -36,11 +36,11 @@ angular.module('weather')
         };
 
         $scope.isSearchByCityMode = () => {
-            return $scope.searchMode == 'byCity';
+            return $scope.searchMode === 'byCity';
         };
 
         $scope.isSearchByCoordinatesMode = () =>  {
-            return $scope.searchMode == 'byCoordinates';
+            return $scope.searchMode === 'byCoordinates';
         };
 
         $scope.clearSearch = () => {

@@ -7,9 +7,9 @@
     <artifactId>weather</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>common</module>
         <module>open-weather-api-client</module>
         <module>weather-app</module>
-        <module>common</module>
     </modules>
     <packaging>pom</packaging>
 
