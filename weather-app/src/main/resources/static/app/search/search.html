@@ -2,7 +2,7 @@
     <div class="row">
         <div class="search-panel center-block">
             <div class="container-fluid">
-                <form name="searchForm" ng-submit="search()">
+                <form ng-submit="search()">
                 <div class="row">
                     <label>
                         <h3>Поиск погоды</h3>
@@ -32,9 +32,7 @@
                     <div class="col-lg-12">
                         <div class="input-group city-search">
                             <input ng-model="city" type="text" name="city"
-                                   class="form-control" placeholder="Введите город"
-                                   ng-pattern="cityRegexp" />
-                            <span ng-show="!searchForm.city.$valid">1111111</span>
+                                   class="form-control" placeholder="Введите город"  />
                         </div>
                     </div>
                 </div>
@@ -53,7 +51,7 @@
                 <div class="row">
                     <div class="center-block">
                         <button type="submit" class="btn btn-primary"
-                                ng-disabled="!city && !latitude && !longitude && !searchForm.$valid">
+                                ng-disabled="!city && !latitude && !longitude">
                             Поиск
                         </button>
                     </div>

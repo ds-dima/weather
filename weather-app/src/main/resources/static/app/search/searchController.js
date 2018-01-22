@@ -9,7 +9,6 @@ angular.module('weather')
     }])
     .controller('SearchController', function ($scope, $http) {
         $scope.searchMode = 'byCity';
-        $scope.cityRegexp = '^([^&\\/?]\\D*)$';
         $scope.search = () => {
             let future = null;
             if ($scope.isSearchByCityMode()) {
