@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by dsshevchenko on 1/19/18.
@@ -45,10 +43,10 @@ public class WeatherController {
     @RequestMapping(value = "/by-coordinates", method = RequestMethod.GET)
     @ResponseBody
     public WeatherInfoJson getInfoByCityCoordinates(
-            @Max(value = 90, message = "{latitude.max.message}")
-            @Min(value = -90, message = "{latitude.max.message}") @RequestParam  Integer lat,
-            @Max(value = 180, message = "{longitude.max.message}")
-            @Min(value = -180, message = "{longitude.max.message}") @RequestParam Integer lon) {
+            @Max(value = 90, message = "{latitude.range.message}")
+            @Min(value = -90, message = "{latitude.range.message}") @RequestParam  Integer lat,
+            @Max(value = 180, message = "{longitude.range.message}")
+            @Min(value = -180, message = "{longitude.range.message}") @RequestParam Integer lon) {
                 return conversionService.convert(weatherService.getWeatherByCoordinates(lat, lon), WeatherInfoJson.class);
     }
 

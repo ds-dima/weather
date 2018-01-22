@@ -7,33 +7,37 @@ angular.module('weather')
             templateUrl: "app/search/search.html"
         });
     }])
-    .controller('SearchController', function ($scope, $http, $state, WeatherResult) {
+    .controller('SearchController', function ($scope, $http, $state, WeatherResult, WebSocket) {
         $scope.searchMode = 'byCity';
         $scope.search = () => {
-            let future = null;
-            if ($scope.isSearchByCityMode()) {
-                future = searchByCity();
-            } else if ($scope.isSearchByCoordinatesMode()) {
-                future = searchByCoordinates();
-            }
-            future.then(response => {
-                WeatherResult.set(response.data);
+            let onSuccess = (response) => {
+                WeatherResult.set(JSON.parse(response.body));
                 $state.go('result');
                 $scope.clearSearch();
+            };
+            if ($scope.isSearchByCityMode()) {
+                searchByCity(onSuccess);
+            } else if ($scope.isSearchByCoordinatesMode()) {
+                searchByCoordinates(onSuccess);
+            }
+        };
+
+        let searchByCity = onSuccess => {
+            WebSocket.subscribe({
+                source: '/weather-by-city-name',
+                topic: '/topic/result',
+                data: $scope.city,
+                handler: onSuccess
             })
         };
 
-        let searchByCity = () => {
-            let params = {
-                params: {cityName: $scope.city},
-                headers : {'Content-Type' : 'application/json; charset=UTF-8'}
-            };
-            return $http.get('/api/v1.0/weather/by-city-name', params)
-        };
-
-        let searchByCoordinates= () => {
-            let params = {params: {lat: $scope.latitude, lon: $scope.longitude}};
-            return $http.get('/api/v1.0/weather/by-coordinates', params)
+        let searchByCoordinates = onSuccess => {
+            WebSocket.subscribe({
+                source: '/weather-by-coordinates',
+                topic: '/topic/result',
+                data: {latitude: $scope.latitude, longitude: $scope.longitude},
+                handler: onSuccess
+            })
         };
 
         $scope.isSearchByCityMode = () => {
