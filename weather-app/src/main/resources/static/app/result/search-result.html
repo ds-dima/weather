@@ -1,0 +1,14 @@
+<div>
+    <div class="row">
+        <div class="search-panel center-block">
+            <div class="row" ng-show="weather">
+                <p ng-show="weather.cityName"><strong>{{weather.cityName}}</strong></p>
+                <p ng-show="weather.temperature">Температура: {{weather.temperature}} &#8451;</p>
+                <p ng-show="weather.pressure">Давление: {{weather.pressure}} мм рт.ст.</p>
+                <p ng-show="weather.windDirection">Ветер: {{weather.windDirection}}
+                    <span ng-show="weather.windSpeed">,{{weather.windSpeed}} м/с</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

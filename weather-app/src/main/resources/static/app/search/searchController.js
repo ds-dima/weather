@@ -7,7 +7,7 @@ angular.module('weather')
             templateUrl: "app/search/search.html"
         });
     }])
-    .controller('SearchController', function ($scope, $http) {
+    .controller('SearchController', function ($scope, $http, $state, WeatherResult) {
         $scope.searchMode = 'byCity';
         $scope.search = () => {
             let future = null;
@@ -17,7 +17,8 @@ angular.module('weather')
                 future = searchByCoordinates();
             }
             future.then(response => {
-                $scope.weather = response.data;
+                WeatherResult.set(response.data);
+                $state.go('result');
                 $scope.clearSearch();
             })
         };
