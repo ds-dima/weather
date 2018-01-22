@@ -10,12 +10,19 @@ angular.module('weather', ['ngResource', 'ui.router', 'ngLoader'])
 
         return {
             'request': function (config) {
-                if (config && !(config.hideLoader || (config.data && config.data.hideLoader))) {
+                if (config && !(config.hideLoader || config.data)) {
                     numLoadings++;
                     rootScope.$broadcast("loading:show");
                 }
                 return config;
             },
+            'response': function (response) {
+                if (numLoadings > 0 && !(--numLoadings)) {
+                    rootScope.$broadcast("loading:hide");
+                }
+                return response;
+            },
+
             "responseError": function (rejection) {
                 if (numLoadings > 0 && !(--numLoadings)) {
                     rootScope.$broadcast("loading:hide");
@@ -36,13 +43,6 @@ angular.module('weather', ['ngResource', 'ui.router', 'ngLoader'])
                     rootScope.$broadcast("loading:hide");
                 }
                 return rejection
-            },
-
-            'response': function (response) {
-                if (numLoadings > 0 && !(--numLoadings)) {
-                    rootScope.$broadcast("loading:hide");
-                }
-                return response;
             }
         }
     })
