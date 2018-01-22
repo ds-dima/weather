@@ -5,16 +5,23 @@ import com.dsdima.weather.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by dsshevchenko on 1/19/18.
  */
 @Controller
 @RequestMapping("/api/v1.0/weather")
+@Validated
 public class WeatherController {
 
     @Autowired
@@ -25,7 +32,7 @@ public class WeatherController {
 
     @RequestMapping(value = "/by-city-id", method = RequestMethod.GET)
     @ResponseBody
-    public WeatherInfoJson getInfoByCityId(@RequestParam String cityId) {
+    public WeatherInfoJson getInfoByCityId(@RequestParam Integer cityId) {
         return conversionService.convert(weatherService.getWeatherByCityId(cityId), WeatherInfoJson.class);
     }
 
@@ -37,8 +44,12 @@ public class WeatherController {
 
     @RequestMapping(value = "/by-coordinates", method = RequestMethod.GET)
     @ResponseBody
-    public WeatherInfoJson getInfoByCityCoordinates(@RequestParam String lat, @RequestParam String lon) {
-        return conversionService.convert(weatherService.getWeatherByCoordinates(lat, lon), WeatherInfoJson.class);
+    public WeatherInfoJson getInfoByCityCoordinates(
+            @Max(value = 90, message = "{latitude.max.message}")
+            @Min(value = -90, message = "{latitude.max.message}") @RequestParam  Integer lat,
+            @Max(value = 180, message = "{longitude.max.message}")
+            @Min(value = -180, message = "{longitude.max.message}") @RequestParam Integer lon) {
+                return conversionService.convert(weatherService.getWeatherByCoordinates(lat, lon), WeatherInfoJson.class);
     }
 
 }

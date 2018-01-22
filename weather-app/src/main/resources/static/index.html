@@ -10,14 +10,15 @@
     <script type="application/javascript" src="libs/angular-resource.min.js"></script>
     <script type="application/javascript" src="libs/angular-ui-router.min.js"></script>
     <script type="application/javascript" src="libs/ngLoader.min.js"></script>
+    <script type="application/javascript" src="libs/angular-growl.min.js"></script>
     <script type="application/javascript" src="app/app.js"></script>
-    <script type="application/javascript" src="app/service.js"></script>
     <script type="application/javascript" src="app/search/searchController.js"></script>
     <script type="application/javascript" src="app/about/aboutController.js"></script>
     <script type="application/javascript" src="app/directives/loading-indicator.js"></script>
 
     <link rel="stylesheet" href="libs/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/css/ngLoader.min.css">
+    <link rel="stylesheet" href="libs/css/angular-growl.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body ng-app="weather">
@@ -43,6 +44,7 @@
     <div class="container">
         <ui-view />
     </div>
+    <div growl></div>
     <loading-indicator />
 </body>
 </html>

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,19 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by dsshevchenko on 1/19/18.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-public class WeatherControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+public class WeatherControllerTest extends AbstractControllerTest {
 
     @MockBean
     private WeatherService weatherServiceMock;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     public void shouldRetrieveWeatherByCityName() throws Exception {
@@ -66,7 +59,7 @@ public class WeatherControllerTest {
 
     @Test
     public void shouldRetrieveWeatherByCityId() throws Exception {
-        when(weatherServiceMock.getWeatherByCityId(anyString()))
+        when(weatherServiceMock.getWeatherByCityId(anyInt()))
                 .thenReturn(new WeatherInfo()
                         .setTemperature(-5.9f)
                         .setPressure(1080)
@@ -75,7 +68,7 @@ public class WeatherControllerTest {
                 );
 
         String weatherJsonText = mockMvc.perform(get("/api/v1.0/weather/by-city-id")
-                                            .param("cityId", anyString()))
+                                            .param("cityId", "123456"))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn().getResponse().getContentAsString();
         assertNotNull(weatherJsonText);
@@ -89,7 +82,7 @@ public class WeatherControllerTest {
 
     @Test
     public void shouldRetrieveWeatherByCoordinates() throws Exception {
-        when(weatherServiceMock.getWeatherByCoordinates(anyString(), anyString()))
+        when(weatherServiceMock.getWeatherByCoordinates(anyInt()  , anyInt()))
                 .thenReturn(new WeatherInfo()
                         .setTemperature(-35f)
                         .setWindDirection(300)
@@ -97,8 +90,8 @@ public class WeatherControllerTest {
                 );
 
         String weatherJsonText = mockMvc.perform(get("/api/v1.0/weather/by-coordinates")
-                                            .param("lat", anyString())
-                                            .param("lon", anyString())
+                                            .param("lat", "20")
+                                            .param("lon", "30")
         )
                 .andExpect(status().is2xxSuccessful())
                 .andReturn().getResponse().getContentAsString();

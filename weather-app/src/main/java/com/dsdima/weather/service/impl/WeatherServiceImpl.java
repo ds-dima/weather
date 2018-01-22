@@ -17,7 +17,7 @@ public class WeatherServiceImpl implements WeatherService {
     private WeatherApiClient weatherApiClient;
 
     @Override
-    public WeatherInfo getWeatherByCityId(String cityId) {
+    public WeatherInfo getWeatherByCityId(Integer cityId) {
         return weatherApiClient.getWeatherByCityId(cityId);
     }
 
@@ -27,7 +27,7 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     @Override
-    public WeatherInfo getWeatherByCoordinates(String lat, String lon) {
+    public WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon) {
         return weatherApiClient.getWeatherByCoordinates(lat, lon);
     }
 }

@@ -9,9 +9,9 @@ import com.dsdima.weather.model.WeatherInfo;
  */
 public interface WeatherApiClient {
 
-    WeatherInfo getWeatherByCityId(String cityId);
+    WeatherInfo getWeatherByCityId(Integer cityId);
 
     WeatherInfo getWeatherByCityName(String cityName);
 
-    WeatherInfo getWeatherByCoordinates(String lat, String lon);
+    WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon);
 }

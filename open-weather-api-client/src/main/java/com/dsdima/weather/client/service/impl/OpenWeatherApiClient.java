@@ -33,9 +33,9 @@ public class OpenWeatherApiClient implements WeatherApiClient {
     private OpenWeatherResponseConverter converter;
 
     @Override
-    public WeatherInfo getWeatherByCityId(final String cityId) {
+    public WeatherInfo getWeatherByCityId(final Integer cityId) {
         Map<String, String> params = new HashMap<>();
-        params.put("id", cityId);
+        params.put("id", "" + cityId);
         return converter.convert(getWeatherResponse(params));
     }
 
@@ -47,10 +47,10 @@ public class OpenWeatherApiClient implements WeatherApiClient {
     }
 
     @Override
-    public WeatherInfo getWeatherByCoordinates(final String lat, String lon) {
+    public WeatherInfo getWeatherByCoordinates(final Integer lat, Integer lon) {
         Map<String, String> params = new HashMap<>();
-        params.put("lat", lat);
-        params.put("lon", lon);
+        params.put("lat", "" + lat);
+        params.put("lon", "" + lon);
         return converter.convert(getWeatherResponse(params));
     }
 
@@ -59,7 +59,7 @@ public class OpenWeatherApiClient implements WeatherApiClient {
                 .fromUriString(apiUri + "/weather")
                 .queryParam("appid", appId)
                 .queryParam("units", "metric");
-        params.entrySet().stream()
+        params.entrySet()
                 .forEach(entry -> paramBuilder.queryParam(entry.getKey(), entry.getValue()));
         return restTemplate.getForObject(paramBuilder.build(false).toUriString(), WeatherResponse.class, params);
     }
