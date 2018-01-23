@@ -84,4 +84,15 @@ public class WeatherInfoJson {
         cityName = val;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "WeatherInfoJson{" +
+                "temperature=" + temperature +
+                ", pressure=" + pressure +
+                ", windSpeed=" + windSpeed +
+                ", windDirection='" + windDirection + '\'' +
+                ", cityName='" + cityName + '\'' +
+                '}';
+    }
 }

@@ -42,7 +42,7 @@ public class ClientConfig  {
                     throw new OpenWeatherApiException(format("Неправильные параметры запроса. (%s)", response.getStatusText()));
                 }
                 if (getHttpStatusCode(response).equals(HttpStatus.NOT_FOUND)) {
-                    throw new OpenWeatherApiNotFoundException(format("По данному запросу ничего не найдено (%s)", response.getStatusText()));
+                    throw new OpenWeatherApiNotFoundException(format(" (%s)", response.getStatusText()));
                 }
             }
         });

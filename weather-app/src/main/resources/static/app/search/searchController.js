@@ -7,10 +7,11 @@ angular.module('weather')
             templateUrl: "app/search/search.html"
         });
     }])
-    .controller('SearchController', function ($scope, $http, $state, WeatherResult, WebSocket) {
+    .controller('SearchController', function ($scope, $http, $state, $rootScope, WeatherResult, WebSocket, UserId) {
         $scope.searchMode = 'byCity';
         $scope.search = () => {
             let onSuccess = (response) => {
+                $rootScope.$broadcast("loading:hide");
                 WeatherResult.set(JSON.parse(response.body));
                 $state.go('result');
                 $scope.clearSearch();
@@ -23,18 +24,20 @@ angular.module('weather')
         };
 
         let searchByCity = onSuccess => {
+            $rootScope.$broadcast("loading:show");
             WebSocket.subscribe({
-                source: '/weather-by-city-name',
-                topic: '/topic/result',
+                source: '/' + UserId.get() + '/weather-by-city-name',
+                topic:  '/topic/' + UserId.get() + '/result',
                 data: $scope.city,
                 handler: onSuccess
             })
         };
 
         let searchByCoordinates = onSuccess => {
+            $rootScope.$broadcast("loading:show");
             WebSocket.subscribe({
-                source: '/weather-by-coordinates',
-                topic: '/topic/result',
+                source: '/' + UserId.get() + '/weather-by-coordinates',
+                topic:  '/topic/' + UserId.get() + '/result',
                 data: {latitude: $scope.latitude, longitude: $scope.longitude},
                 handler: onSuccess
             })

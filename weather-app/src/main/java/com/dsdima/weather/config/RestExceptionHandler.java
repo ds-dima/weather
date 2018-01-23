@@ -11,22 +11,15 @@ package com.dsdima.weather.config;
 
 import com.dsdima.weather.client.service.exception.OpenWeatherApiException;
 import com.dsdima.weather.client.service.exception.OpenWeatherApiNotFoundException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import com.dsdima.weather.controller.WeatherWebSocketController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -34,42 +27,48 @@ import java.util.stream.Collectors;
  * @since <pre>1/15/2018</pre>
  */
 @ControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler {
+
+    /** Logger */
+    private static final Logger LOG = LoggerFactory.getLogger(WeatherWebSocketController.class);
 
     /**
      * Handle weather api client errors
      * @param ex exception
-     * @return response entity
      */
-    @ExceptionHandler(OpenWeatherApiException.class)
-    protected ResponseEntity<String> handleInternalException(OpenWeatherApiException ex) {
-        //todo log
-        return new ResponseEntity<>("Ошибка работы системы, обратитесь к разработчикам", HttpStatus.INTERNAL_SERVER_ERROR);
+    @MessageExceptionHandler(OpenWeatherApiException.class)
+    public void handleInternalException(OpenWeatherApiException ex) {
+        LOG.error("OpenWeatherApi system error", ex);
     }
 
     /**
      * Handle weather api not found errors
      * @param ex exception
-     * @return response entity
      */
-    @ExceptionHandler(OpenWeatherApiNotFoundException.class)
-    protected ResponseEntity<String> handleNotFoundException(OpenWeatherApiNotFoundException ex) {
-        //todo log
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    @MessageExceptionHandler(OpenWeatherApiNotFoundException.class)
+    public void handleNotFoundException(OpenWeatherApiNotFoundException ex) {
+        LOG.error("Request search not found any data", ex);
     }
 
     /**
-     * Bad request exception handler
+     * Handle Interrupted Exception
      * @param ex exception
-     * @return response entity
      */
-    @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<List<String>> handleBadRequestException(ConstraintViolationException ex) {
-        //todo log
-        List<String> errors = ex.getConstraintViolations().stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    @MessageExceptionHandler(InterruptedException.class)
+    public void handleNotFoundException(InterruptedException ex) {
+        LOG.error("System error", ex);
+    }
+
+    /**
+     * Bad request params
+     * @param ex exception
+     */
+    @MessageExceptionHandler(MethodArgumentNotValidException.class)
+    public void handleBadRequestException(MethodArgumentNotValidException ex) {
+        String error = ex.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(","));
+        LOG.error("Bad request params: {}", error);
     }
 
 }

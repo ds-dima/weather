@@ -24,4 +24,17 @@ angular.module('weather')
                });
            }
        } 
+    })
+    .factory('GUID', function () {
+        let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        return {
+           generate: () => s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
+       }
+    })
+
+    .factory('UserId', function (GUID) {
+        let id = GUID.generate();
+        return {
+           get: () => id
+       }
     });
