@@ -35,14 +35,14 @@ public class WeatherWebSocketController {
 
     @MessageMapping("/{clientToken}/weather-by-city-name")
     public void getWeatherByCityName(@DestinationVariable("clientToken") String clientToken, String cityName) throws Throwable {
-        WeatherInfo weather = weatherService.getWeatherByCityName(cityName);
+        WeatherInfo weather = weatherService.getWeatherByCityName(cityName, clientToken);
         WeatherInfoJson weatherJson = conversionService.convert(weather, WeatherInfoJson.class);
         messagingTemplate.convertAndSend(format("/topic/%s/result", clientToken), weatherJson);
     }
 
     @MessageMapping("/{clientToken}/weather-by-coordinates")
     public void getWeatherByCoordinates(@DestinationVariable("clientToken") String clientToken, @Valid CoordinatesJson coordinates) throws Throwable {
-        WeatherInfo weather = weatherService.getWeatherByCoordinates(coordinates.getLatitude(), coordinates.getLongitude());
+        WeatherInfo weather = weatherService.getWeatherByCoordinates(coordinates.getLatitude(), coordinates.getLongitude(), clientToken);
         WeatherInfoJson weatherJson = conversionService.convert(weather, WeatherInfoJson.class);
         messagingTemplate.convertAndSend(format("/topic/%s/result", clientToken), weatherJson);
     }

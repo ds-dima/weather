@@ -8,7 +8,7 @@ import com.dsdima.weather.model.WeatherInfo;
  */
 public interface WeatherService {
 
-    WeatherInfo getWeatherByCityName(String cityName) throws Throwable;
+    WeatherInfo getWeatherByCityName(String cityName, String clientToken) throws Throwable;
 
-    WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon) throws Throwable;
+    WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon, String clientToken) throws Throwable;
 }

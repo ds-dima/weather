@@ -9,9 +9,8 @@
  */
 package com.dsdima.weather.config;
 
-import com.dsdima.weather.client.service.exception.OpenWeatherApiException;
-import com.dsdima.weather.client.service.exception.OpenWeatherApiNotFoundException;
 import com.dsdima.weather.controller.WeatherWebSocketController;
+import com.dsdima.weather.exception.WeatherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,21 +37,12 @@ public class WebSocketExceptionHandler {
     private SimpMessagingTemplate messagingTemplate;
 
     /**
-     * Handle weather api client errors
+     * Handle weather exception
      * @param ex exception
      */
-    @MessageExceptionHandler(OpenWeatherApiException.class)
-    public void handleInternalException(OpenWeatherApiException ex) {
+    @MessageExceptionHandler(WeatherException.class)
+    public void handleInternalException(WeatherException ex) {
         LOG.error("OpenWeatherApi system error", ex);
-    }
-
-    /**
-     * Handle weather api not found errors
-     * @param ex exception
-     */
-    @MessageExceptionHandler(OpenWeatherApiNotFoundException.class)
-    public void handleNotFoundException(OpenWeatherApiNotFoundException ex) {
-        LOG.error("Request search not found any data", ex);
     }
 
     /**

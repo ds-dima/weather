@@ -1,6 +1,7 @@
 package com.dsdima.weather.service.impl;
 
 import com.dsdima.weather.client.service.WeatherApiClient;
+import com.dsdima.weather.exception.WeatherException;
 import com.dsdima.weather.model.WeatherInfo;
 import com.dsdima.weather.service.WeatherService;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class WeatherServiceImpl implements WeatherService {
     private WeatherApiClient weatherApiClient;
 
     @Override
-    public WeatherInfo getWeatherByCityName(String cityName) throws Throwable {
+    public WeatherInfo getWeatherByCityName(String cityName, String clientToken) throws Throwable {
         LOG.info("Request:get weather by city name - {}", cityName);
         try {
             WeatherInfo weatherInfo = weatherTaskExecutorService.submit(() -> {
@@ -38,12 +39,12 @@ public class WeatherServiceImpl implements WeatherService {
             LOG.info("Response:weather by city name - {}, result - {}", cityName, weatherInfo);
             return weatherInfo;
         } catch (ExecutionException e) {
-            throw e.getCause();
+            throw new WeatherException(e.getCause());
         }
     }
 
     @Override
-    public WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon) throws Throwable {
+    public WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon, String clientToken) throws Throwable {
         LOG.info("Request:get weather by coordinates: latitude={}, longitude={}", lat, lon);
         try {
             WeatherInfo weatherInfo = weatherTaskExecutorService.submit(() -> {
