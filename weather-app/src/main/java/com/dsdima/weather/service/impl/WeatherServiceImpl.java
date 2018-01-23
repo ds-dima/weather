@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 /**
  * @author dsshevchenko
@@ -28,24 +28,33 @@ public class WeatherServiceImpl implements WeatherService {
     private WeatherApiClient weatherApiClient;
 
     @Override
-    public WeatherInfo getWeatherByCityId(Integer cityId) {
-        LOG.info("Request:get weather by city id - {}", cityId);
-        return weatherApiClient.getWeatherByCityId(cityId);
+    public WeatherInfo getWeatherByCityName(String cityName) throws Throwable {
+        LOG.info("Request:get weather by city name - {}", cityName);
+        try {
+            WeatherInfo weatherInfo = weatherTaskExecutorService.submit(() -> {
+                LOG.info("Start task: get weather by city name - {}", cityName);
+                return weatherApiClient.getWeatherByCityName(cityName);
+            }).get();
+            LOG.info("Response:weather by city name - {}, result - {}", cityName, weatherInfo);
+            return weatherInfo;
+        } catch (ExecutionException e) {
+            throw e.getCause();
+        }
     }
 
     @Override
-    public Future<WeatherInfo> getWeatherByCityName(String cityName) {
-        return weatherTaskExecutorService.submit(() -> {
-            LOG.info("Start task: get weather by city name - {}", cityName);
-            return weatherApiClient.getWeatherByCityName(cityName);
-        });
-    }
-
-    @Override
-    public Future<WeatherInfo> getWeatherByCoordinates(Integer lat, Integer lon) {
-        return weatherTaskExecutorService.submit(() -> {
-            LOG.info("Start task: get weather by coordinates: latitude={}, longitude={}", lat, lon);
-            return weatherApiClient.getWeatherByCoordinates(lat, lon);
-        });
+    public WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon) throws Throwable {
+        LOG.info("Request:get weather by coordinates: latitude={}, longitude={}", lat, lon);
+        try {
+            WeatherInfo weatherInfo = weatherTaskExecutorService.submit(() -> {
+                LOG.info("Start task: get weather by coordinates: latitude={}, longitude={}", lat, lon);
+                return weatherApiClient.getWeatherByCoordinates(lat, lon);
+            }).get();
+            LOG.info("Response:weather by coordinates: latitude={}, longitude={}, result - {}",
+                    lat, lon, weatherInfo);
+            return weatherInfo;
+        } catch (ExecutionException e) {
+            throw e.getCause();
+        }
     }
 }

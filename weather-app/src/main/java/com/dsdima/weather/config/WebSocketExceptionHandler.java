@@ -14,12 +14,14 @@ import com.dsdima.weather.client.service.exception.OpenWeatherApiNotFoundExcepti
 import com.dsdima.weather.controller.WeatherWebSocketController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -27,10 +29,13 @@ import java.util.stream.Collectors;
  * @since <pre>1/15/2018</pre>
  */
 @ControllerAdvice
-public class RestExceptionHandler {
+public class WebSocketExceptionHandler {
 
     /** Logger */
     private static final Logger LOG = LoggerFactory.getLogger(WeatherWebSocketController.class);
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     /**
      * Handle weather api client errors
@@ -55,7 +60,7 @@ public class RestExceptionHandler {
      * @param ex exception
      */
     @MessageExceptionHandler(InterruptedException.class)
-    public void handleNotFoundException(InterruptedException ex) {
+    public void handleInterruptedException(InterruptedException ex) {
         LOG.error("System error", ex);
     }
 
@@ -65,10 +70,11 @@ public class RestExceptionHandler {
      */
     @MessageExceptionHandler(MethodArgumentNotValidException.class)
     public void handleBadRequestException(MethodArgumentNotValidException ex) {
-        String error = ex.getBindingResult().getAllErrors().stream()
+        List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining(","));
-        LOG.error("Bad request params: {}", error);
+                .collect(Collectors.toList());
+        LOG.error("Bad request params: {}", errors.stream().collect(Collectors.joining(",")));
+//        messagingTemplate.convertAndSend();
     }
 
 }

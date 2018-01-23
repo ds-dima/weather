@@ -24,11 +24,26 @@ public class CoordinatesJson {
         return longitude;
     }
 
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
+    /**
+     * Set latitude property.
+     *
+     * @param val - new latitude value.
+     * @return the {@link CoordinatesJson} for chaining.
+     */
+    public CoordinatesJson setLatitude(Integer val) {
+        latitude = val;
+        return this;
     }
 
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
+    /**
+     * Set latitude property.
+     *
+     * @param val - new longitude value.
+     * @return the {@link CoordinatesJson} for chaining.
+     */
+    public CoordinatesJson setLongitude(Integer val) {
+        longitude = val;
+        return this;
     }
+
 }

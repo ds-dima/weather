@@ -87,4 +87,14 @@ public class WeatherInfo {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "WeatherInfo{" +
+                "windDirection=" + windDirection +
+                ", temperature=" + temperature +
+                ", pressure=" + pressure +
+                ", windSpeed=" + windSpeed +
+                ", cityName='" + cityName + '\'' +
+                '}';
+    }
 }

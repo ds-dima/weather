@@ -17,7 +17,6 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -74,7 +73,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         return new Jackson2ObjectMapperBuilder()
-                .dateFormat(new SimpleDateFormat("dd.MM.yyyy'T'HH:mm:ss"))
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 .featuresToEnable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
