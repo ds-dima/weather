@@ -1,7 +1,10 @@
 package com.dsdima.weather.controller.json;
 
 /**
- * Created by dsshevchenko on 1/19/18.
+ * Weather info json
+ *
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 public class WeatherInfoJson {
     private Integer temperature;

@@ -18,13 +18,19 @@ import java.nio.charset.Charset;
 import static java.lang.String.format;
 
 /**
- * Created by dsshevchenko on 1/19/18.
+ * Client configuration
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 @Configuration
 @ComponentScan(basePackages = "com.dsdima.weather.client")
 @PropertySource("classpath:application.properties")
 public class ClientConfig  {
 
+    /**
+     * Rest template bean with exception handler
+     * @return bean
+     */
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();

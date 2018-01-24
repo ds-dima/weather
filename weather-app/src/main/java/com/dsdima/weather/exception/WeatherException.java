@@ -1,7 +1,10 @@
 package com.dsdima.weather.exception;
 
 /**
- * Created by dsshevchenko on 1/24/18.
+ * Weather exception wrapper over client exception
+ *
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 public class WeatherException extends Exception {
 

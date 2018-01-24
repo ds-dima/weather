@@ -1,6 +1,6 @@
 package com.dsdima.weather.client;
 
-import com.dsdima.weather.model.WeatherInfo;
+import com.dsdima.weather.domain.WeatherInfo;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -12,7 +12,8 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 /**
- * Created by dsshevchenko on 1/19/18.
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 
 public class OpenWeatherApiClientTest extends OpenWeatherApiAbstractTest {

@@ -1,6 +1,7 @@
-package com.dsdima.weather.model;
+package com.dsdima.weather.domain;
 
 /**
+ * Weather
  * @author dsshevchenko
  * @since <pre>1/19/2018</pre>
  */

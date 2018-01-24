@@ -12,18 +12,31 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by dsshevchenko on 1/19/18.
+ * Web security configuration
+ *
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Ignoring static resources
+     * @param web web
+     * @throws Exception exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/**");
     }
 
+    /**
+     * Configure in memory users
+     * @param auth auth
+     * @throws Exception exception
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -35,7 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("user5").password("password").roles("USER");
     }
 
-
+    /**
+     * Configure web security rules
+     * @param http http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic()

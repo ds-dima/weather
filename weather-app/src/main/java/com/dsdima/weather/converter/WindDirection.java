@@ -1,6 +1,8 @@
 package com.dsdima.weather.converter;
 
 /**
+ * Wind direction enum
+ *
  * @author dsshevchenko
  * @since <pre>1/19/2018</pre>
  */
@@ -19,6 +21,11 @@ public enum WindDirection {
     private float toDegree;
     private String description;
 
+    /**
+     * Get {@link WindDirection} of degree
+     * @param degree degree
+     * @return {@link WindDirection} instance
+     */
     public static WindDirection of(int degree) {
         if (degree <= 360 && degree >= NORTH_WEST.toDegree) {
             return NORTH;

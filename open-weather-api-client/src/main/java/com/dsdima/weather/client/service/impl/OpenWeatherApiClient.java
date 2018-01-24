@@ -3,7 +3,7 @@ package com.dsdima.weather.client.service.impl;
 import com.dsdima.weather.client.converter.OpenWeatherResponseConverter;
 import com.dsdima.weather.client.json.WeatherResponse;
 import com.dsdima.weather.client.service.WeatherApiClient;
-import com.dsdima.weather.model.WeatherInfo;
+import com.dsdima.weather.domain.WeatherInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Open weather api client
+ * Main method for client interaction
  * @author dsshevchenko
  * @since <pre>1/19/2018</pre>
  */

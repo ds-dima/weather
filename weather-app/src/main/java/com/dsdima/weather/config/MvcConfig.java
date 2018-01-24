@@ -24,11 +24,18 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import java.util.List;
 
 /**
- * Created by dsshevchenko on 1/19/18.
+ * Mvc configuration
+ *
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
+    /**
+     * Message converter for java <-> json transformation
+     * @param converters
+     */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -36,14 +43,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         converters.add(converter);
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
-        bean.setBasename("classpath:validation-message");
-        bean.setDefaultEncoding("UTF-8");
-        return bean;
-    }
-
+    /**
+     * Define {@link WeatherConverter} converter bean
+     * @param registry registry
+     */
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new WeatherConverter());

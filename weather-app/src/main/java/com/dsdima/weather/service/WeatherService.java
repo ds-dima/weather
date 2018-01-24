@@ -1,7 +1,7 @@
 package com.dsdima.weather.service;
 
 import com.dsdima.weather.exception.WeatherException;
-import com.dsdima.weather.model.WeatherInfo;
+import com.dsdima.weather.domain.WeatherInfo;
 
 import java.security.Principal;
 

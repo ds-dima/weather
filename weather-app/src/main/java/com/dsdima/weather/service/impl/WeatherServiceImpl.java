@@ -2,7 +2,7 @@ package com.dsdima.weather.service.impl;
 
 import com.dsdima.weather.client.service.WeatherApiClient;
 import com.dsdima.weather.exception.WeatherException;
-import com.dsdima.weather.model.WeatherInfo;
+import com.dsdima.weather.domain.WeatherInfo;
 import com.dsdima.weather.service.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutorService;
 import static java.lang.String.format;
 
 /**
+ * Weather service
+ *
  * @author dsshevchenko
  * @since <pre>1/19/2018</pre>
  */
@@ -26,12 +28,26 @@ public class WeatherServiceImpl implements WeatherService {
     /** Logger */
     private static final Logger LOG = LoggerFactory.getLogger(WeatherServiceImpl.class);
 
+    /**
+     * Executor service
+     */
     @Autowired
     private ExecutorService weatherTaskExecutorService;
 
+    /**
+     * Weather api ckient
+     */
     @Autowired
     private WeatherApiClient weatherApiClient;
 
+    /**
+     * Get weather by city name
+     * Execute one request per time
+     * @param cityName city name
+     * @param principal user principal
+     * @return weather info
+     * @throws WeatherException if weather has provider errors
+     */
     @Override
     public WeatherInfo getWeatherByCityName(String cityName, Principal principal) throws WeatherException {
         String requestName = format("get weather by city name(%s)", cityName);
@@ -41,6 +57,15 @@ public class WeatherServiceImpl implements WeatherService {
         }, principal, requestName);
     }
 
+    /**
+     * Get weather by coordinates
+     * Execute one request per time
+     * @param lat latitude
+     * @param lon longitude
+     * @param principal user principal
+     * @return weather info
+     * @throws WeatherException if weather has provider errors
+     */
     @Override
     public WeatherInfo getWeatherByCoordinates(String lat, String lon, Principal principal) throws WeatherException {
         String requestName = format("get weather by coordinates: latitude=%s, longitude=%s", lat, lon);

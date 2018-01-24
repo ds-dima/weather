@@ -4,7 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Created by dsshevchenko on 1/18/18.
+ * Weather Spring boot application runner
+ *
+ * @author dsshevchenko
+ * @since <pre>1/22/2018</pre>
  */
 @SpringBootApplication
 public class App {

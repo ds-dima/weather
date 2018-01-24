@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /**
+ * Open weather api response
+ *
  * @author dsshevchenko
  * @since <pre>1/19/2018</pre>
  */
