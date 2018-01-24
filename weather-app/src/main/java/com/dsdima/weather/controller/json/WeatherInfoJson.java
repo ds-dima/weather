@@ -9,6 +9,7 @@ public class WeatherInfoJson {
     private Integer windSpeed;
     private String windDirection;
     private String cityName;
+    private String error;
 
     public Integer getTemperature() {
         return temperature;
@@ -28,6 +29,10 @@ public class WeatherInfoJson {
 
     public String getCityName() {
         return cityName;
+    }
+
+    public String getError() {
+        return error;
     }
 
     /**
@@ -85,6 +90,17 @@ public class WeatherInfoJson {
         return this;
     }
 
+    /**
+     * Set error property.
+     *
+     * @param val - new error value.
+     * @return the {@link WeatherInfoJson} for chaining.
+     */
+    public WeatherInfoJson setError(String val) {
+        error = val;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "WeatherInfoJson{" +
@@ -95,4 +111,5 @@ public class WeatherInfoJson {
                 ", cityName='" + cityName + '\'' +
                 '}';
     }
+
 }

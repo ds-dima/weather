@@ -9,8 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+
+import static java.lang.String.format;
 
 /**
  * @author dsshevchenko
@@ -29,33 +33,36 @@ public class WeatherServiceImpl implements WeatherService {
     private WeatherApiClient weatherApiClient;
 
     @Override
-    public WeatherInfo getWeatherByCityName(String cityName, String clientToken) throws Throwable {
-        LOG.info("Request:get weather by city name - {}", cityName);
-        try {
-            WeatherInfo weatherInfo = weatherTaskExecutorService.submit(() -> {
-                LOG.info("Start task: get weather by city name - {}", cityName);
-                return weatherApiClient.getWeatherByCityName(cityName);
-            }).get();
-            LOG.info("Response:weather by city name - {}, result - {}", cityName, weatherInfo);
-            return weatherInfo;
-        } catch (ExecutionException e) {
-            throw new WeatherException(e.getCause());
-        }
+    public WeatherInfo getWeatherByCityName(String cityName, Principal principal) throws WeatherException {
+        String requestName = format("get weather by city name(%s)", cityName);
+        return getWeather(() -> {
+            LOG.info("User({}):Start task({})", principal.getName(), requestName);
+            return weatherApiClient.getWeatherByCityName(cityName);
+        }, principal, requestName);
     }
 
     @Override
-    public WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon, String clientToken) throws Throwable {
-        LOG.info("Request:get weather by coordinates: latitude={}, longitude={}", lat, lon);
+    public WeatherInfo getWeatherByCoordinates(String lat, String lon, Principal principal) throws WeatherException {
+        String requestName = format("get weather by coordinates: latitude=%s, longitude=%s", lat, lon);
+        return getWeather(() -> {
+            LOG.info("User({}):Start task:({}) " + requestName, principal.getName());
+            return weatherApiClient.getWeatherByCoordinates(lat, lon);
+        }, principal, requestName);
+    }
+
+    private WeatherInfo getWeather(Callable<WeatherInfo> task, Principal principal, String requestName) throws WeatherException {
+        LOG.info("User({}):Request({})", principal.getName(), requestName);
         try {
-            WeatherInfo weatherInfo = weatherTaskExecutorService.submit(() -> {
-                LOG.info("Start task: get weather by coordinates: latitude={}, longitude={}", lat, lon);
-                return weatherApiClient.getWeatherByCoordinates(lat, lon);
-            }).get();
-            LOG.info("Response:weather by coordinates: latitude={}, longitude={}, result - {}",
-                    lat, lon, weatherInfo);
+            WeatherInfo weatherInfo = weatherTaskExecutorService.submit(task).get();
+            LOG.info("User({}):Response({}), result - {}", principal.getName(), requestName, weatherInfo);
             return weatherInfo;
         } catch (ExecutionException e) {
-            throw e.getCause();
+            Throwable cause = e.getCause();
+            LOG.error("User({}):Error: {}", principal.getName(), cause.getMessage());
+            throw new WeatherException(cause.getMessage());
+        } catch (InterruptedException e) {
+            LOG.error("System error", e);
+            throw new WeatherException("Ошибка работы системы, попробуйте выполнить запрос позднее");
         }
     }
 }

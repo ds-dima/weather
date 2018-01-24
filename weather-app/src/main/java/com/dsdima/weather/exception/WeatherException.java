@@ -3,9 +3,9 @@ package com.dsdima.weather.exception;
 /**
  * Created by dsshevchenko on 1/24/18.
  */
-public class WeatherException extends RuntimeException {
+public class WeatherException extends Exception {
 
-    public WeatherException(Throwable cause) {
-        super(cause);
+    public WeatherException(String message) {
+        super(message);
     }
 }

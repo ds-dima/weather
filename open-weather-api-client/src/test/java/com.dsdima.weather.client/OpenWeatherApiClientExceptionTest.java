@@ -18,7 +18,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  * @author dsshevchenko
  * @since <pre>1/22/2018</pre>
  */
-public class OpenWeatherApiClientExceptionTests extends OpenWeatherApiAbstractTest {
+public class OpenWeatherApiClientExceptionTest extends OpenWeatherApiAbstractTest {
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
@@ -49,7 +49,7 @@ public class OpenWeatherApiClientExceptionTests extends OpenWeatherApiAbstractTe
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.NOT_FOUND));
         expectedEx.expect(OpenWeatherApiNotFoundException.class);
-        expectedEx.expectMessage("По данному запросу ничего не найдено (Not Found)");
+        expectedEx.expectMessage("По данному запросу ничего не найдено");
         client.getWeatherByCityName("111111111fdsfds");
     }
 }

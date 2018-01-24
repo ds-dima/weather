@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <RollingRandomAccessFile name="ALL" fileName="logs/all.log" append="true" immediateFlush="true"
+                                 filePattern="logs/$${date:yyyy-MM}/all-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="7"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="USER_ACTION" fileName="logs/user-action.log" append="true" immediateFlush="true"
+                                 filePattern="logs/$${date:yyyy-MM}/user-action-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="7"/>
+        </RollingRandomAccessFile>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout charset="UTF-8" pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.dsdima.weather.service.impl.WeatherServiceImpl" level="info" additivity="true" includeLocation="true">
+            <AppenderRef ref="USER_ACTION"/>
+        </Logger>
+
+        <Logger name="com.dsdima.weather" level="debug" additivity="true" includeLocation="true">
+            <AppenderRef ref="ALL"/>
+        </Logger>
+
+        <Root level="error">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

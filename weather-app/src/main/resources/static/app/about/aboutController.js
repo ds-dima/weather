@@ -3,11 +3,6 @@ angular.module('weather')
 
         $stateProvider.state("about", {
             url: "/about",
-            controller: "AboutController",
-            template: "<div>О программе</div>"
+            templateUrl: "app/about/about.html"
         });
-    }])
-    .controller('AboutController', function ($scope) {
-        
-
-    });
+    }]);

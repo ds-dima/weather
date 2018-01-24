@@ -47,10 +47,10 @@ public class OpenWeatherApiClient implements WeatherApiClient {
     }
 
     @Override
-    public WeatherInfo getWeatherByCoordinates(final Integer lat, Integer lon) {
+    public WeatherInfo getWeatherByCoordinates(final String lat, String lon) {
         Map<String, String> params = new HashMap<>();
-        params.put("lat", "" + lat);
-        params.put("lon", "" + lon);
+        params.put("lat", lat);
+        params.put("lon", lon);
         return converter.convert(getWeatherResponse(params));
     }
 

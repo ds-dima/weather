@@ -15,7 +15,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  * Created by dsshevchenko on 1/19/18.
  */
 
-public class OpenWeatherApiClientTests extends OpenWeatherApiAbstractTest {
+public class OpenWeatherApiClientTest extends OpenWeatherApiAbstractTest {
 
     @Test
     public void weatherByCityIdSuccessTest() throws Exception {
@@ -80,7 +80,7 @@ public class OpenWeatherApiClientTests extends OpenWeatherApiAbstractTest {
                           "  },\n" +
                           "\"name\":\"Ogano\"" +
                           "}", MediaType.APPLICATION_JSON_UTF8));
-        WeatherInfo response = client.getWeatherByCoordinates(36, 139);
+        WeatherInfo response = client.getWeatherByCoordinates("36", "139");
         assertNotNull(response);
         assertEquals((Float) 4f, response.getTemperature());
         assertEquals((Integer) 1019, response.getPressure());

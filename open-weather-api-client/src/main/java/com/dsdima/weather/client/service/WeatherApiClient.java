@@ -13,5 +13,5 @@ public interface WeatherApiClient {
 
     WeatherInfo getWeatherByCityName(String cityName);
 
-    WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon);
+    WeatherInfo getWeatherByCoordinates(String lat, String lon);
 }

@@ -1,6 +1,9 @@
 package com.dsdima.weather.service;
 
+import com.dsdima.weather.exception.WeatherException;
 import com.dsdima.weather.model.WeatherInfo;
+
+import java.security.Principal;
 
 /**
  * @author dsshevchenko
@@ -8,7 +11,7 @@ import com.dsdima.weather.model.WeatherInfo;
  */
 public interface WeatherService {
 
-    WeatherInfo getWeatherByCityName(String cityName, String clientToken) throws Throwable;
+    WeatherInfo getWeatherByCityName(String cityName, Principal principal) throws WeatherException;
 
-    WeatherInfo getWeatherByCoordinates(Integer lat, Integer lon, String clientToken) throws Throwable;
+    WeatherInfo getWeatherByCoordinates(String lat, String lon, Principal principal) throws WeatherException;
 }

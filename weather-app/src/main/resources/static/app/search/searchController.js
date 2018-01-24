@@ -7,12 +7,17 @@ angular.module('weather')
             templateUrl: "app/search/search.html"
         });
     }])
-    .controller('SearchController', function ($scope, $http, $state, $rootScope, WeatherResult, WebSocket, UserId) {
+    .controller('SearchController', function ($scope, $http, $state, $rootScope, growl, WeatherResult, WebSocket, UserId) {
         $scope.searchMode = 'byCity';
         $scope.search = () => {
             let onSuccess = (response) => {
                 $rootScope.$broadcast("loading:hide");
-                WeatherResult.set(JSON.parse(response.body));
+                let weather = JSON.parse(response.body);
+                if (weather.error) {
+                    growl.error(weather.error);
+                    return;
+                }
+                WeatherResult.set(weather);
                 $state.go('result');
                 $scope.clearSearch();
             };

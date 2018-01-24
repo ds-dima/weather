@@ -18,8 +18,6 @@
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!--Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>

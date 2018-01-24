@@ -18,7 +18,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @TestPropertySource(properties = {
         "openweather.api.appid = 46f7323cb5c5febda15f2a2baaf4ed64wrong",
 })
-public class OpenWeatherApiClientUnauthorizedTests extends OpenWeatherApiAbstractTest {
+public class OpenWeatherApiClientUnauthorizedTest extends OpenWeatherApiAbstractTest {
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
